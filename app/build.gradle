@@ -1,0 +1,110 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.22'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android' version '2.44.2'
+}
+
+android {
+    namespace 'com.takari.anywherecodingexercise'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.sample"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    //Each variant should have a different name, package-name, and url that it pulls data from. (We're interested in your methodology for creating multiple apps from a shared codebase)
+
+//    Variant One
+//    Name: Simpsons Character Viewer
+//    Data API: http://api.duckduckgo.com/?q=simpsons+characters&format=json
+//    Package/Bundle name: com.sample.simpsonsviewer
+//    Version Two
+//    Name: The Wire Character Viewer
+//    Data API: http://api.duckduckgo.com/?q=the+wire+characters&format=json
+//    Package/Bundle name: com.sample.wireviewer
+
+
+    flavorDimensions += "varient"
+    productFlavors {
+        create("simpsons") {
+            applicationIdSuffix = ".simpsonsviewer"
+
+            manifestPlaceholders.label = "Simpsons Character Viewer"
+            manifestPlaceholders.icon = "simpsons_icon"
+        }
+
+        create("wire") {
+            applicationIdSuffix = ".wireviewer"
+
+            manifestPlaceholders.label = "The Wire Character Viewer"
+            manifestPlaceholders.icon = "the_wire_icon"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // kotlinx-serialization
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
+
+    // ViewModelScope
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+
+    // ViewModel KTX
+    implementation "androidx.fragment:fragment-ktx:1.5.7"
+
+    // LifecycleScope
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+
+    //GSON Converter
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.44.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
+
+
+    implementation "androidx.slidingpanelayout:slidingpanelayout:1.2.0"
+
+    // Coil
+    implementation("io.coil-kt:coil:2.4.0")
+}
